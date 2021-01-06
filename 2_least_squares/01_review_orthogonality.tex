@@ -1,0 +1,81 @@
+\section{Review: Orthogonality}
+
+\begin{bigidea}
+Vectors $\bs{x},\bs{y} \in \mathbb{R}^n$ are orthogonal if $\bs{x} \cdot \bs{y} = 0$.
+\end{bigidea}
+
+\begin{definition}
+The {\bf dot product} (or {\bf inner product}) \cite[p.282]{KN} of vectors $\bs{x}, \bs{y} \in \mathbb{R}^n$ is
+$$
+\bs{x} \cdot \bs{y} = \sum_{k=1}^n x_k y_k = x_1y_1 + \cdots + x_ny_n
+$$
+\end{definition}
+
+\begin{note}
+\begin{itemize}
+\item Write the dot product of column vectors as matrix multiplication
+$$
+\bs{x} \cdot \bs{y} = \bs{x}^T \bs{y} = 
+\begin{bmatrix} x_1 & \cdots & x_n \end{bmatrix}
+\raisebox{-5.7mm}{ $ \begin{bmatrix} y_1 \\ \vdots \\ y_n \end{bmatrix} $}
+$$
+\item We can also write the dot product in terms of the angle between vectors
+$$
+\bs{x} \cdot \bs{y} = \| \bs{x} \| \| \bs{y} \| \cos \theta \hspace{10mm} 0 \leq \theta \leq \pi
+$$
+\item The square root of the dot product of a vector $\bs{x}$ with itself is equal to the norm
+$$
+\sqrt{ \bs{x} \cdot \bs{x} } = \| \bs{x} \|
+$$
+\end{itemize}
+\end{note}
+
+\begin{theorem}
+Let $\bs{x} , \bs{y} \in \mathbb{R}^n$. Then
+$$
+| \bs{x} \cdot \bs{y} | \leq \| \bs{x} \| \| \bs{y} \|
+$$
+This is called the {\bf Cauchy-Schwartz inequality} \cite[p.284]{KN}.
+\end{theorem}
+
+\begin{theorem}
+Let $\bs{x} , \bs{y} \in \mathbb{R}^n$. Then
+$$
+\| \bs{x} + \bs{y} \| \leq \| \bs{x} \| + \| \bs{y} \|
+$$
+This is called the {\bf triangle inequality} \cite[p.284]{KN}.
+\end{theorem}
+
+\begin{definition}
+Vectors $\bs{x}, \bs{y} \in \mathbb{R}^n$ are {\bf orthogonal} \cite[p.285]{KN} if $\bs{x} \cdot \bs{y} = 0$. More generally, (nonzero) vectors $\bs{x}_1, \dots, \bs{x}_m \in \mathbb{R}^n$ are {\bf orthogonal} if $\bs{x}_i \cdot \bs{x}_j = 0$ for all $i \not= j$. In other words, each $\bs{x}_i$ is orthogonal to every other vector $\bs{x}_j$ in the set. Furthermore, vectors $\bs{x}_1, \dots, \bs{x}_m \in \mathbb{R}^n$ are {\bf orthonormal} if they are orthogonal and each is a unit vector, $\| \bs{x}_k \| = 1$, $k=1,\dots,m$.
+\end{definition}
+
+\begin{theorem}
+Let $\bs{x}_1, \dots, \bs{x}_m \in \mathbb{R}^n$ be orthogonal. Then
+$$
+\| \bs{x}_1 + \cdots + \bs{x}_m \| = \| \bs{x}_1 \| + \cdots + \| \bs{x}_m \|
+$$
+This is called the {\bf Pythagoras theorem} \cite[p.286]{KN}.
+\end{theorem}
+
+\begin{definition}
+Let $S_1 \subset \mathbb{R}^n$ and $S_2 \subset \mathbb{R}^n$ be subspaces. Then $S_1$ and $S_2$ are {\bf orthogonal} if $\bs{x}_1 \cdot \bs{x}_2 = 0$ for all $\bs{x}_1 \in S_1$ and $\bs{x}_2 \in S_2$. Notation: if $S_1$ and $S_2$ are orthogonal subspaces, we write $S_1 \perp S_2$.
+\end{definition}
+
+\begin{example}
+Let $S_1 \subset \mathbb{R}^3$ and $S_2 \subset \mathbb{R}^3$ be 2-dimensional subspaces (planes). Is it possible that $S_1 \perp S_2$? No!
+\end{example}
+
+\begin{definition}
+Let $S \subset \mathbb{R}^n$ be a subspace. The {\bf orthogonal complement of $S$} \cite[p.418]{KN} is the subspace
+$$
+S^{\perp} = \{ \bs{x} \in \mathbb{R}^n : \bs{x} \cdot \bs{y} = 0 \text{ for all } \bs{y} \in \mathbb{R}^n \}
+$$
+\end{definition}
+
+\begin{theorem}
+Let $S \subset \mathbb{R}^n$ be a subspace. Then
+$$
+\dim(S) + \dim(S^{\perp}) = n
+$$
+\end{theorem}

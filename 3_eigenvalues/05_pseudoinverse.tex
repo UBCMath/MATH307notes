@@ -1,0 +1,112 @@
+\section{Pseudoinverse, Least Squares and the SVD Expansion}
+
+\begin{bigidea}
+The pseudoinverse $A^+$ solves the least squares problem $A \bs{x} \cong \bs{b}$ by $\bs{x} = A^+ \bs{b}$.
+\end{bigidea}
+
+\begin{definition}
+Let $A$ be a $m \times n$ matrix of rank $r$ and let $A = P \Sigma Q^T$ be a SVD of $A$. The {\bf pseudoinverse} of $A$ \cite[p.458]{KN} is
+$$
+A^+ = Q \Sigma^+ P^T
+$$
+where
+$$
+\Sigma^+ =
+\renewcommand{\arraystretch}{1.25}
+\left[ \begin{array}{ccc|c}
+\sigma_1^{-1} & & & \\
+& \ddots & & \bs{0} \\
+& & \sigma_r^{-1} & \\ \hline
+& \bs{0} & & \bs{0}
+\end{array} \right]_{n \times m}
+\renewcommand{\arraystretch}{1}
+$$
+\end{definition}
+
+\begin{note}
+If $A$ is invertible, then $A^+ = A^{-1}$.
+\end{note}
+
+\begin{theorem}
+Let $A$ be an $m \times n$ matrix and let $\bs{b} \in \mathbb{R}^m$. The least squares approximation of the system $A \bs{x} \cong \bs{b}$ is given by $\bs{x} = A^+ \bs{b}$.
+
+\begin{proof}
+Let $A = P \Sigma Q^T$ be a SVD of $A$. Let $P^T \bs{b} = \bs{c}$ and write
+$$
+\bs{c} = \begin{bmatrix}
+c_1 \\ \vdots \\ c_m \end{bmatrix}
+\in \mathbb{R}^m
+$$
+Since $P$ is an orthogonal matrix we have
+$$
+\| A \bs{x} - \bs{b} \| = \| P \Sigma Q^T \bs{x} - P \bs{c} \| = \| \Sigma Q^T \bs{x} - \bs{c} \|
+$$
+The matrix $\Sigma$ is of the form
+$$
+\Sigma =
+\renewcommand{\arraystretch}{1.25}
+\left[ \begin{array}{ccc|c}
+\sigma_1 & & & \\
+& \ddots & & \bs{0} \\
+& & \sigma_r & \\ \hline
+& \bs{0} & & \bs{0}
+\end{array} \right]_{m \times n}
+\renewcommand{\arraystretch}{1}
+$$
+and so only the first $r$ entries of $\Sigma \bs{v}$ are nonzero for any vector $\bs{v} \in \mathbb{R}^n$. Therefore the minimum value $\| A \bs{x} - \bs{b} \| = \| \Sigma Q^T \bs{x} - \bs{c} \|$ occurs when
+$$
+\Sigma Q^T \bs{x}
+= \begin{bmatrix}
+c_1 \\ \vdots \\ c_r \\ \bs{0} \end{bmatrix}
+$$
+and so $\bs{x} = Q \Sigma^+ \bs{c}$. Altogether, we have
+$$
+\bs{x} = Q \Sigma^+ P^T \bs{b} = A^+ \bs{b}
+$$
+\end{proof}
+\end{theorem}
+
+\begin{definition}
+Let $A = P \Sigma Q^T$. The {\bf SVD expansion} of $A$ is
+$$
+A = \sum_{i=1}^r \sigma_i \bs{p}_i \bs{q}_i^T = \sigma_1 \bs{p}_1 \bs{q}_1^T + \cdots + \sigma_r \bs{p}_r \bs{q}_r^T
+$$
+Note that each product $\bs{p}_i \bs{q}_i^T$ is a $m \times n$ matrix of rank 1.
+\end{definition}
+
+\begin{proposition}
+Let $A$ be a $m \times n$ matrix and let $B$ be a $n \times \ell$ matrix with SVD expansions
+$$
+A = \sum_{i=1}^r \sigma_i \bs{p}_i \bs{q}_i^T
+\hspace{5mm} \text{and} \hspace{5mm}
+B = \sum_{j=1}^s \mu_j \bs{u}_j \bs{v}_j^T
+$$
+If $\{ \bs{q}_1,\dots,\bs{q}_r \}$ and $\{ \bs{u}_1,\dots,\bs{u}_s \}$ are orthogonal sets of vectors, then $AB = 0$.
+\end{proposition}
+
+\begin{definition}
+Let $A = P \Sigma Q^T$. The {\bf truncated SVD expansion of rank $k$} of $A$ is
+$$
+A_k = \sum_{i=1}^k \sigma_i \bs{p}_i \bs{q}_i^T = \sigma_1 \bs{p}_1 \bs{q}_1^T + \cdots + \sigma_k \bs{p}_k \bs{q}_k^T
+$$
+\end{definition}
+
+\begin{note}
+Suppose we want to solve the system $A \bs{x} = \bs{b}$ however the right side is corrupted by noise $\bs{e}$ and we must work with the system
+$$
+A \hat{\bs{x}} = \bs{b} + \bs{e}
+$$
+Solving directly we get
+$$
+\hat{\bs{x}} =  A^{-1} \left( \bs{b} + \bs{e} \right)= A^{-1}\bs{b} + A^{-1}\bs{e}
+$$
+and the term $A^{-1}\bs{e}$ is called the {\bf inverted noise} which may dominate the true solution $\bs{x} = A^{-1} \bs{b}$. From the SVD expansion, we see that most of $A$ is composed of the terms $\sigma_i  \bs{p}_i \bs{q}_i^T$ for {\it large} singular values $\sigma_i$. If we know that the error $\bs{e}$ is unrelated to $A$ in the sense that $\bs{e}$ is (mostly) orthogonal to the singular vectors $\bs{p}_i$ of $A$ corresponding to large singular values, then the truncated SVD expansion of the pseudoinverse
+$$
+A_k^+ = \sum_{i=1}^k \frac{1}{\sigma_i} \bs{q}_i \bs{p}_i^T
+$$
+gives a better solution 
+$$
+\hat{\bs{x}} =  A^+_k \left( \bs{b} + \bs{e} \right)= A^+_k \bs{b} + A^+_k\bs{e}
+$$
+since the term $A^+_k\bs{e}$ will be smaller. In other words, we avoid terms $\sigma_i^{-1} \bs{p}_i \bs{q}_i^T$ in the SVD expansion of $A^{-1}$ for small singular values $\sigma_i$ which produce large values $\sigma_i^{-1}$ which may amplify the error. This is the strategy for image debluring and computed tomography in the next sections. 
+\end{note}

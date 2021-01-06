@@ -1,0 +1,73 @@
+\section{Convolution Theorem and Filtering}
+
+\begin{bigidea}
+The discrete Fourier transform of the convolution of two signals is equal to the elementwise product of the discrete Fourier transforms of those signals. In other words, convolution in the time domain corresponds via DFT to elementwise multiplication in the frequency domain.
+\end{bigidea}
+
+\begin{definition}
+Let $\bs{x}, \bs{y} \in \mathbb{C}^N$. The {\bf convolution} of $\bs{x}$ and $\bs{y}$ is the vector $\bs{x} * \bs{y} \in \mathbb{C}^N$ given by
+$$
+( \bs{x} * \bs{y} )[n] = \sum_{m=0}^{N-1} \bs{x}[m] \bs{y}[n - m]
+$$
+We interpret $\bs{y}[n - m]$ using modular arithmetic: if $n - m$ is outside the interval $[0,N-1]$, then we add/subtract multiples of $N$ until the index is inside the interval $[0,N-1]$. See \href{https://en.wikipedia.org/wiki/Convolution}{Wikipedia:~Convolution}.
+\end{definition}
+
+\begin{example}
+Let $\bs{x} = \begin{bmatrix} 1 & 2 & 1 & -1 \end{bmatrix}$ and $\bs{y} = \begin{bmatrix} 0 & 1/2 & 1/2 & 0 \end{bmatrix}$. Compute
+\begin{align*}
+( \bs{x} * \bs{y} )[0] = \sum_{m=0}^3 \bs{x}[m] \bs{y}[- m] &= \bs{x}[0] \bs{y}[0] + \bs{x}[1] \bs{y}[-1] + \bs{x}[2] \bs{y}[-2] + \bs{x}[3] \bs{y}[-3] \\
+&= \bs{x}[0] \bs{y}[0] + \bs{x}[1] \bs{y}[3] + \bs{x}[2] \bs{y}[2] + \bs{x}[3] \bs{y}[1] \\
+&= (1)(0) + (2)(0) + (1)(1/2) + (-1)(1/2) \\
+&= 0
+\end{align*}
+\begin{align*}
+( \bs{x} * \bs{y} )[1] = \sum_{m=0}^3 \bs{x}[m] \bs{y}[1 - m] &= \bs{x}[0] \bs{y}[1] + \bs{x}[1] \bs{y}[0] + \bs{x}[2] \bs{y}[-1] + \bs{x}[3] \bs{y}[-2] \\
+&= \bs{x}[0] \bs{y}[1] + \bs{x}[1] \bs{y}[0] + \bs{x}[2] \bs{y}[3] + \bs{x}[3] \bs{y}[2] \\
+&= (1)(1/2) + (2)(0) + (1)(0) + (-1)(1/2) \\
+&= 0
+\end{align*}
+\begin{align*}
+( \bs{x} * \bs{y} )[2] = \sum_{m=0}^3 \bs{x}[m] \bs{y}[2 - m] &= \bs{x}[0] \bs{y}[2] + \bs{x}[1] \bs{y}[1] + \bs{x}[2] \bs{y}[0] + \bs{x}[3] \bs{y}[-1] \\
+&= \bs{x}[0] \bs{y}[2] + \bs{x}[1] \bs{y}[1] + \bs{x}[2] \bs{y}[0] + \bs{x}[3] \bs{y}[3] \\
+&= (1)(1/2) + (2)(1/2) + (1)(0) + (-1)(0) \\
+&= 3/2
+\end{align*}
+\begin{align*}
+( \bs{x} * \bs{y} )[3] = \sum_{m=0}^3 \bs{x}[m] \bs{y}[3 - m] &= \bs{x}[0] \bs{y}[3] + \bs{x}[1] \bs{y}[2] + \bs{x}[2] \bs{y}[1] + \bs{x}[3] \bs{y}[0] \\
+&= (1)(0) + (2)(1/2) + (1)(1/2) + (-1)(0) \\
+&= 3/2
+\end{align*}
+\end{example}
+
+\begin{definition}
+Let $\bs{u}, \bs{v} \in \mathbb{C}^N$. The {\bf elementwise product} (or {\bf Hadamard product}) of $\bs{u}$ and $\bs{v}$ is the vector $\bs{u} \circ \bs{v} \in \mathbb{C}^N$ given by
+$$
+\bs{u} \circ \bs{v} =
+\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_{N-1} \end{bmatrix}
+\circ
+\begin{bmatrix} v_0 \\ v_1 \\ \vdots \\ v_{N-1} \end{bmatrix}
+=
+\begin{bmatrix} u_0v_0 \\ u_1v_1 \\ \vdots \\ u_{N-1}v_{N-1} \end{bmatrix}
+$$
+See \href{https://en.wikipedia.org/wiki/Hadamard_product_(matrices)}{Wikipedia:~Hadamard product}.
+\end{definition}
+
+\begin{theorem}
+Let $\bs{x}, \bs{y} \in \mathbb{C}^N$. Then
+$$
+\mathrm{DFT}( \bs{x} * \bs{y} ) = \mathrm{DFT}(\bs{x}) \circ \mathrm{DFT}(\bs{y})
+$$
+where $\circ$ denotes elementwise multiplication. See \href{https://en.wikipedia.org/wiki/Convolution}{Wikipedia:~Convolution}.
+
+\begin{proof}
+Compute from the definitions
+\begin{align*}
+(\mathrm{DFT}(\bs{x} * \bs{y}))[k] &= \sum_{n=0}^{N-1} \sum_{m=0}^{N-1} \bs{x}[m] \bs{y}[n - m] \omega_N^{-n k} \\
+&= \sum_{n=0}^{N-1} \sum_{m=0}^{N-1} \bs{x}[m] \bs{y}[n - m] \omega_N^{-n k} \omega_N^{m k} \omega_N^{-m k} \\
+&= \sum_{m=0}^{N-1} \bs{x}[m] \omega_N^{-m k} \sum_{n=0}^{N-1}  \bs{y}[n - m] \omega_N^{-(n-m) k} \\
+&= \sum_{m=0}^{N-1} \bs{x}[m] \omega_N^{-m k} \sum_{n=0}^{N-1}  \bs{y}[n] \omega_N^{-n k} \\
+&= \mathrm{DFT}(\bs{x})[k] \ \mathrm{DFT}(\bs{y})[k]
+\end{align*}
+Therefore $\mathrm{DFT}( \bs{x} * \bs{y} ) = \mathrm{DFT}(\bs{x}) \cdot \mathrm{DFT}(\bs{y})$.
+\end{proof}
+\end{theorem}

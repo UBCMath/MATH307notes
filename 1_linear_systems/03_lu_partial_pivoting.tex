@@ -1,0 +1,212 @@
+\section{LU Decomposition with Partial Pivoting}
+
+\begin{bigidea}
+For any matrix $A$, Gaussian elimination with partial pivoting computes a decomposition $A = PLU$ where $P$ is a permutation matrix, $L$ is unit lower triangular and $U$ is upper triangular.
+\end{bigidea}
+
+\begin{note}
+At step $k$ in the LU decomposition in the previous section, we form the atomic lower triangular matrix $L_k$ with entries
+$$
+\ell_{i,k} = - \frac{a_{i,k}^{(k)}}{a_{k,k}^{(k)}}
+$$
+This is a problem if $a_{k,k}^{(k)}$ very small or zero! Therefore in general we need to use pivoting. In other words, we interchange rows as necessary at each step. This leads to
+$$
+L_{n-1}P_{n-1} \cdots L_2 P_2 L_1 P_1 A = U
+\hspace{5mm}
+\Rightarrow
+\hspace{5mm}
+A = P_1^{-1}L_1^{-1} P_2^{-1}L_2^{-1} \cdots P_{n-1}^{-1} L_{n-1}^{-1} U
+$$
+We need to figure out how to rearrange the matrices into the form $A = PLU$.
+\end{note}
+
+\begin{proposition}
+Let $L_k$ be an atomic lower triangular matrix with nonzero entries below the diagonal in column $k$. Let $P$ be an elementary permutation matrix which switches rows $i$ and $j$ for $i>k$ and $j>k$. Then $P L_k P = \tilde{L}_k$ where $\tilde{L}_k$ is simply $L_k$ but with entries $\ell_{i,k}$ and $\ell_{j,k}$ switched.
+
+\begin{proof}
+Write 
+$L_k$ in block form
+$$
+L_k =
+\begin{bmatrix}
+1 & & & & & \\
+& \ddots & & & & \\
+& & 1 & & & \\
+& & \ell_{k+1,k}& 1 & & \\
+& & \vdots & & \ddots & \\
+& & \ell_{m,k} & & & 1 \\
+\end{bmatrix}
+=
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline L_* & I_{m-k} \end{array} \right]
+\hspace{10mm}
+L_* = \left[ \begin{array}{cccc}
+0 & \cdots & 0 & \ell_{k+1,k} \\
+\vdots & & \vdots & \vdots \\
+0 & \cdots & 0 & \ell_{m,k}
+\end{array} \right]
+$$
+where $I_k$ and $I_{m-k}$ are the identity matrices of size $k$ and $m-k$ respectively. Since $P$ be an elementary permutation matrix which switches rows $i$ and $j$ for $i>k$ and $j>k$, write in block form
+$$
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline 0 & P_* \end{array} \right]
+$$
+Since $P$ is an elementary permutation matrix which only switches 2 rows, we have $P^2 = I_m$ and also $P_*^2 = I_{m-k}$. Finally, using block matrices, we compute
+\begin{align*}
+P L_k P
+&=
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline 0 & P_* \end{array} \right]
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline L_* & I_{m-k} \end{array} \right]
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline 0 & P_* \end{array} \right] \\
+&=
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline 0 & P_* \end{array} \right]
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline L_* & P_* \end{array} \right] \\
+&=
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline P_*L_* & P_*^2 \end{array} \right] \\
+&=
+\left[ \begin{array}{c|c} I_k & 0 \\ \hline P_*L_* & I_{m-k} \end{array} \right]
+\end{align*}
+The result is $P L_k P = \tilde{L}_k$ where $\tilde{L}_k$ is simply $L_k$ but with $\ell_{i,k}$ and $\ell_{j,k}$ switched.
+\end{proof}
+\end{proposition}
+
+\begin{example}
+Consider the matrices
+$$
+P =
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 \\
+0 & 1 & 0 & 0
+\end{bmatrix}
+\hspace{10mm}
+L =
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+a & 1 & 0 & 0 \\
+b & 0 & 1 & 0 \\
+c & 0 & 0 & 1
+\end{bmatrix}
+$$
+Since $P$ switches rows 2 and 4, we find
+$$
+P L P = \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+c & 1 & 0 & 0 \\
+b & 0 & 1 & 0 \\
+a & 0 & 0 & 1
+\end{bmatrix}
+$$
+\end{example}
+
+\begin{theorem}
+For any matrix $A$, there exists a permutation matrix $P$, unit lower triangular matrix $L$ and upper triangular matrix $U$ such that
+$$
+A = PLU
+$$
+This is the {\bf LU decomposition with partial pivoting} \cite[p.72]{MH}. The algorithm is:
+\begin{enumerate}
+\item[] Let $m$ be the number of rows of $A$ and let $n$ be the number of columns.
+\item[] Let $A_1 = A$ and use notation $A_k = \left[ a_{i,j}^{(k)} \right]$ and $\tilde{A}_k = \left[ \tilde{a}_{i,j}^{(k)} \right]$.
+\item[] {\bf for} $k$ from 1 to $n-1$:
+\begin{enumerate}
+\item[] Find index $p$ with maximum value $\left| a_{p,k}^{(k)} \right|$ in column $k$ of $A_k$ below diagonal
+\item[] (or if all entries in column $k$ below diagonal are zero, move to the next column).
+\item[] Let $P_k$ such that $P_k A_k = \tilde{A}_k$ switches rows $p$ and $k$.
+\item[] Let $L_k$ such that $\ds \ell_{i,k} = - \frac{\tilde{a}^{(k)}_{i,k}}{\tilde{a}^{(k)}_{k,k}}$ and compute $L_k \tilde{A}_k = A_{k+1}$.
+\end{enumerate}
+\item[] {\bf end}
+\item[] $A = PLU$ where $P=P_1 \cdots P_{n-1}$, $U = A_n$ and $L = \tilde{L}_1^{-1} \cdots \tilde{L}_{n-1}^{-1}$ where each $\tilde{L}_k^{-1}$ is given by $L_k^{-1}$ with entries permuted in order by $P_{k'}$ for each $k' > k$.
+\end{enumerate}
+\end{theorem}
+
+\begin{note}
+Pivoting ensures all the entries of $L$ below the diagonal satisfy $| \ell_{i,j} | \leq 1$ ($i > j$).
+\end{note}
+
+\begin{example}
+Compute the LU decomposition with partial pivoting of
+$$
+A = \begin{bmatrix} 1 & 1 & 1 \\ 1 & 1 & 2 \\ 0 & 1 & 1 \end{bmatrix}
+$$
+In the first column, we see the maximum value $| a_{i,1}|$ is 1 and we do not need to pivot therefore $P_1 = I$ and $\tilde{A}_1 = A_1 = A$. Compute:
+$$
+L_1 \tilde{A}_1 =
+\left[ \begin{array}{rrr} 1 & 0 & 0 \\ -1 & 1 & 0 \\ 0 & 0 & 1 \end{array} \right]
+\left[ \begin{array}{rrr} 1 & 1 & 1 \\ 1 & 1 & 2 \\ 0 & 1 & 1 \end{array} \right]
+=
+\left[ \begin{array}{rrr} 1 & 1 & 1 \\ 0 & 0 & 1 \\ 0 & 1 & 1 \end{array} \right]
+$$
+In the second column, we see $a_{2,2}^{(2)} = 0$ and $a_{3,2}^{(2)} = 1$ therefore we must swap rows
+$$
+P_2 A_2 = \left[ \begin{array}{rrr} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{array} \right]
+$$
+This is already upper triangular and so $L_2 = I$ in the last step. Therefore
+$$
+L_2 P_2 L_1 P_1 A = U \ \ \Rightarrow \ \ A = P_1^{-1} L_1^{-1} P_2^{-1}L_2^{-1} U = L_1^{-1} P_2^{-1} U
+$$
+Using the proposition above we find $ L_1^{-1} P_2^{-1} =   P_2^{-1} \tilde{L}_1^{-1}$ where
+$$
+\tilde{L}_1^{-1} = \left[ \begin{array}{rrr} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{array} \right]
+$$
+Finally, we have $A = PLU$ where
+$$
+P = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & 1 & 0 \end{bmatrix}
+\hspace{5mm}
+L = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{bmatrix}
+\hspace{5mm}
+U = \begin{bmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{bmatrix}
+$$
+\end{example}
+
+\begin{example}
+Suppose the LU decomposition with partial pivoting applied to $A$ yields matrices
+$$
+P_1 = \begin{bmatrix} 0 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 1 & 0 & 0 & 0 \end{bmatrix}
+\hspace{5mm}
+P_2 = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+\hspace{5mm}
+P_3 = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \end{bmatrix}
+$$
+$$
+L_1 = \left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0.2 & 1 & 0 & 0 \\ -0.1 & 0 & 1 & 0 \\ 0.5 & 0 & 0 & 1 \end{array} \right]
+\hspace{5mm}
+L_2 = \left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0.7 & 1 & 0 \\ 0 & -0.1 & 0 & 1 \end{array} \right]
+\hspace{5mm}
+L_3 = \left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0.1 & 1 \end{array} \right]
+$$
+We rearrange the matrices
+\begin{align*}
+& P_1^{-1} L_1^{-1} P_2^{-1} L_2^{-1} P_3^{-1} L_3^{-1} \\
+&=
+P_1
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ -0.2 & 1 & 0 & 0 \\ 0.1 & 0 & 1 & 0 \\ -0.5 & 0 & 0 & 1 \end{array} \right]
+P_2
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & -0.7 & 1 & 0 \\ 0 & 0.1 & 0 & 1 \end{array} \right]
+P_3
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & -0.1 & 1 \end{array} \right] \\
+&=
+P_1 P_2
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0.1 & 1 & 0 & 0 \\ -0.2 & 0 & 1 & 0 \\ -0.5 & 0 & 0 & 1 \end{array} \right]
+P_3
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0.1 & 1 & 0 \\ 0 & -0.7 & 0 & 1 \end{array} \right]
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & -0.1 & 1 \end{array} \right] \\
+&=
+P_1 P_2 P_3
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0.1 & 1 & 0 & 0 \\ -0.5 & 0 & 1 & 0 \\ -0.2 & 0 & 0 & 1 \end{array} \right]
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0.1 & 1 & 0 \\ 0 & -0.7 & 0 & 1 \end{array} \right]
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & -0.1 & 1 \end{array} \right] \\
+&=
+P_1 P_2 P_3
+\left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0.1 & 1 & 0 & 0 \\ -0.5 & 0.1 & 1 & 0 \\ -0.2 & -0.7 & -0.1 & 1 \end{array} \right]
+\end{align*}
+Therefore we have found $P$ and $L$ in $A = PLU$ where
+$$
+P = P_1 P_2 P_3 = \begin{bmatrix} 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 \end{bmatrix}
+\hspace{5mm}
+L = \left[ \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0.1 & 1 & 0 & 0 \\ -0.5 & 0.1 & 1 & 0 \\ -0.2 & -0.7 & -0.1 & 1 \end{array} \right]
+$$
+\end{example}
+
+\begin{note}
+Mathematical software such as MATLAB {\tt linsolve} (see \href{https://www.mathworks.com/help/matlab/ref/linsolve.html}{MATLAB documentation}) and SciPy {\tt scipy.linalg.solve} (see \href{https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.linalg.solve.html}{SciPy documentation}) compute solutions of linear systems by LU decomposition with partial pivoting.
+\end{note}

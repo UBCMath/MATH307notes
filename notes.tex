@@ -1,0 +1,89 @@
+\documentclass[11pt]{book}
+\usepackage{notes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\frontmatter
+
+\begin{titlepage}
+\phantom{.} \vspace{0.5in} \\
+{\Huge \bf MATH 307} \vspace{1mm} \\
+{\it Applied Linear Algebra}
+\begin{center}
+\includegraphics[width=6.5in]{cover.png}
+\end{center}
+\flushright{\it \today \ \ v0.1}
+\end{titlepage}
+
+\thispagestyle{empty}
+\setcounter{page}{0}
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Preface}
+\input{./0_preface/preface.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
+
+\chapter{Linear Systems of Equations} \newpage
+\input{./1_linear_systems/01_review_linear_systems.tex}
+\input{./1_linear_systems/02_lu_decomposition.tex}
+\input{./1_linear_systems/03_lu_partial_pivoting.tex}
+\input{./1_linear_systems/04_condition_number.tex}
+\input{./1_linear_systems/05_polynomial_interpolation.tex}
+\input{./1_linear_systems/06_spline_interpolation.tex} \newpage
+\input{./1_linear_systems/07_finite_difference.tex} \newpage
+\input{./1_linear_systems/exercises.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Least Squares Approximation} \newpage
+\input{./2_least_squares/01_review_orthogonality}
+\input{./2_least_squares/02_orthogonal_projection.tex}
+\input{./2_least_squares/03_qr_gram_schmidt.tex}
+\input{./2_least_squares/04_qr_reflectors.tex}
+\input{./2_least_squares/05_least_squares.tex}
+\input{./2_least_squares/06_data_fitting.tex} \newpage
+\input{./2_least_squares/exercises.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Eigenvalue Problems} \newpage
+\input{./3_eigenvalues/01_review_eigenvalues.tex}
+\input{./3_eigenvalues/02_spectral_theorem.tex}
+\input{./3_eigenvalues/03_svd.tex}
+\input{./3_eigenvalues/04_pca.tex}
+\input{./3_eigenvalues/05_pseudoinverse.tex}
+\input{./3_eigenvalues/06_image_deblurring.tex}
+\input{./3_eigenvalues/07_computed_tomography.tex}
+\input{./3_eigenvalues/08_computing_eigenvalues.tex}
+\input{./3_eigenvalues/09_pagerank.tex} \newpage
+\input{./3_eigenvalues/exercises.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Discrete Fourier Transform} \newpage
+\input{./4_dft/01_review_complex.tex}
+\input{./4_dft/02_dft.tex}
+\input{./4_dft/03_frequency.tex}
+\input{./4_dft/04_fft.tex}
+\input{./4_dft/05_convolution.tex} \newpage
+\input{./4_dft/exercises.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{9}
+\bibitem[DG]{DG} David Gleich, \href{https://www.cs.purdue.edu/homes/dgleich/publications.html}{{\it PageRank beyond the web}}, SIAM Review, 57(3):321–363, 2015.
+\bibitem[HNO]{HNO} Per Christian Hansen, James Nagy, and Dianne O'Leary, \href{http://tinyurl.com/yawpzh3n}{{\it Image Deblurring}}, SIAM, 2006.
+\bibitem[MH]{MH} Michael Heath, \href{http://tinyurl.com/y55hqdwn}{{\it Scientific Computing}}, SIAM, Revised 2nd edition, 2018.
+\bibitem[KN]{KN} Keith Nicholson, \href{https://lyryx.com/linear-algebra-applications/}{{\it Linear Algebra with Applications}}, Lyryx, Version 2019 Revision A, 2019.
+%\bibitem[AD]{AD} Allen Downey, \href{https://greenteapress.com/wp/think-dsp/}{{\it Digital Signal Processing in Python}}, Green Tea Press, v1.0.5, 2014.
+%\bibitem[AG]{AG} Uri Ascher and Chen Greif, \href{http://tinyurl.com/y4d44ujf}{{\it A First Course in Numerical Methods}}, SIAM, 2011.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,86 @@
+\section{Review: Eigenvalues and Eigenvectors}
+
+\begin{bigidea}
+An $n \times n$ matrix $A$ is diagonalizable if there exist $n$ linearly independent eigenvectors of $A$. If $A$ is diagonalizable with $A = PDP^{-1}$ then the columns of $P$ are eigenvectors of $A$ and the diagonal entries of $D$ are eigenvalues.
+\end{bigidea}
+
+\begin{definition}
+An {\bf eigenvalue} of a square matrix $A$ \cite[p.173]{KN} is a number $\lambda$ such that
+$$
+A \bs{v} = \lambda \bs{v}
+$$
+for some nonzero vector $\bs{v}$. The vector $\bs{v}$ is called an {\bf eigenvector} for the eigenvalue $\lambda$.
+\end{definition}
+
+\begin{note}
+If $\lambda$ is an eigenvalue of $A$ with eigenvector $\bs{v}$ then $(A - \lambda I)\bs{v} = \bs{0}$ which implies that $A - \lambda I$ is not invertible and therefore $\det(A - \lambda I) = 0$. This suggests that to find eigenvalues and eigenvectors of $A$ we should:
+\begin{enumerate}
+\item Find $\lambda$ such that $\det(A - \lambda I) = 0$.
+\item Given $\lambda$, find solutions of the linear system $(A - \lambda I)\bs{v} = \bs{0}$.
+\end{enumerate}
+This works when $A$ is a small matrix and we have done this in previous linear algebra courses. However, this is impractical when $A$ is a large matrix. For example, if $A$ is $n \times n$ for $n \geq 5$, then $\det(A - \lambda I) = 0$ is a polynomial equation of degree $n$ and there is no formula for the roots. We'll see better algorithms for computing eigenvalues in later sections.
+\end{note}
+
+\begin{definition}
+Let $A$ be an $n \times n$ matrix. The {\bf characteristic polynomial} of $A$ \cite[p.173]{KN} is
+$$
+c_A(x) = \det(A - xI)
+$$
+Then $c_A(x)$ has degree $n$ and the roots of $c_A(x)$ are the eigenvalues of $A$.
+\end{definition}
+
+\begin{definition}
+A matrix $A$ is {\bf diagonalizable} \cite[p.178]{KN} if there exists an invertible matrix $P$ and a diagonal matrix $D$ such that $A = PD P^{-1}$.
+\end{definition}
+
+\begin{proposition}
+If $A$ is diagonalizable with $A = PDP^{-1}$ then the diagonal entries of $D$ are eigenvalues of $A$ and the columns of $P$ are eigenvectors \cite[p.179]{KN}.
+
+\begin{proof}
+Let $\bs{v}_1,\dots, \bs{v}_n$ be the columns of $P$ and let $\lambda_1,\dots,\lambda_n$ be the diagonal entries of $D$
+$$
+P = \begin{bmatrix} & & \\ \bs{v}_1 & \cdots & \bs{v}_n \\ & & \end{bmatrix}
+\hspace{5mm}
+D = \begin{bmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n \end{bmatrix}
+$$
+Matrix multiplication $AP = PD$ yields the equation
+\begin{align*}
+A \begin{bmatrix} & & \\ \bs{v}_1 & \cdots & \bs{v}_n \\ & & \end{bmatrix}
+&=
+\begin{bmatrix} & & \\ \bs{v}_1 & \cdots & \bs{v}_n \\ & & \end{bmatrix}
+\begin{bmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n \end{bmatrix} \\
+\begin{bmatrix} & & \\ A \bs{v}_1 & \cdots & A \bs{v}_n \\ & & \end{bmatrix}
+&=
+\begin{bmatrix} & & \\ \lambda_1 \bs{v}_1 & \cdots & \lambda_n \bs{v}_n \\ & & \end{bmatrix}
+\end{align*}
+Therefore $A \bs{v}_i = \lambda_i \bs{v}_i$ for each $i=1,\dots,n$.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}
+If $A$ has distinct eigenvalues, then $A$ is diagonalizable \cite[p.181]{KN}.
+
+\begin{proof}
+Let $\lambda_1,\dots,\lambda_n$ be the distinct eigenvalues of $A$. That is, $\lambda_i \not= \lambda_j$ for $i \not= j$. Each $\lambda_i$ has a corresponding eigenvector $\bs{v}_i$. Let $\bs{v}_i$ be the $i$th column of $P$ and let $\lambda_i$ be the $i$th diagonal entry of $D$. Then $A = PDP^{-1}$.
+\end{proof}
+\end{proposition}
+
+\begin{definition}
+Let $\lambda$ be an eigenvalue of $A$. The {\bf multiplicity} of $\lambda$ \cite[p.180]{KN} is the number of times $\lambda$ occurs as a root of the characteristic polynomial $c_A(x)$.
+\end{definition}
+
+\begin{note}
+Not every matrix is diagonalizable. For example, consider the matrix
+$$
+A = \begin{bmatrix} 3 & 1 \\ 0 & 3 \end{bmatrix}
+$$
+Then $c_A(x) = (x - 3)^2$ and there is only one eigenvalue $\lambda = 3$ and it has multiplicity 2. Solving the equation $(A - 3I)\bs{v} = \bs{0}$ yields only one independent solution
+$$
+\bs{v} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}
+$$
+Therefore $A$ does not have enough eigenvectors to be diagonalizable.
+\end{note}
+
+\begin{theorem}
+A matrix $A$ is diagonalizable if every eigenvalue $\lambda$ with multiplicity $m$ admits $m$ linearly independent eigenvectors \cite[p.181]{KN}.
+\end{theorem}

@@ -1,0 +1,112 @@
+\section{QR Decomposition by Gram-Schmidt Orthogonalization}
+
+\begin{bigidea}
+The QR decomposition is given by $A = QR$ where $Q$ is an orthogonal matrix and $R$ is an upper triangular matrix. There are several ways to compute the QR decomposition including Gram-Schmidt orthogonalization and elementary reflectors.
+\end{bigidea}
+
+\begin{definition}
+A matrix $A$ is {\bf orthogonal} \cite[p.424]{KN} if $A^TA = AA^T = I$.
+\end{definition}
+
+\begin{proposition}
+ If $A$ is an orthogonal matrix, then:
+\begin{itemize}
+\item $\| A \bs{x} \| = \| \bs{x} \|$ for all $\bs{x} \in \mathbb{R}^n$ since
+$$
+\| A \bs{x} \|^2 = (A \bs{x})^T A \bs{x} = \bs{x}^T A^T A \bs{x} = \bs{x}^T \bs{x} = \| \bs{x} \|^2
+$$
+\item the columns of $A$ are orthonormal.
+\item the rows of $A$ are orthonormal.
+\end{itemize}
+See \cite[p.424]{KN}.
+\end{proposition}
+
+\begin{example}
+Rotations and reflections are examples of orthogonal matrices.
+\end{example}
+
+\begin{note}
+An orthogonal matrix and an orthogonal projector are {\bf not} the same thing but they are related. If $P$ is an orthogonal projector then $Q = I - 2P$ is an orthogonal (and symmetric) matrix. In fact, if $P$ projects onto a subspace $U$ then $Q$ is the reflection through $U^{\perp}$.
+\end{note}
+
+\begin{definition}
+Let $A$ be an $n \times m$ matrix with $\mathrm{rank}(A) = m$ and let $\bs{a}_1,\dots,\bs{a}_m$ be the columns of $A$. Apply the Gram-Schmidt algorithm to the columns and construct an orthonormal basis $\{ \bs{w}_1,\dots,\bs{w}_m \}$ of the column space. Project the columns onto the basis
+\begin{align*}
+\bs{a}_1 &= (\bs{w}_1 \cdot \bs{a}_1) \bs{w}_1 \\
+\bs{a}_2 &= (\bs{w}_1 \cdot \bs{a}_2) \bs{w}_1 + (\bs{w}_2 \cdot \bs{a}_2) \bs{w}_2 \\
+& \ \ \vdots \\
+\bs{a}_m &= (\bs{w}_1 \cdot \bs{a}_m) \bs{w}_1 + (\bs{w}_2 \cdot \bs{a}_m) \bs{w}_2 + \cdots + (\bs{w}_m \cdot \bs{a}_m) \bs{w}_m
+\end{align*}
+where $\bs{a}_k \in \mathrm{span} \{ \bs{w}_1 , \dots , \bs{w}_k \}$ by construction. Write as matrix multiplication
+$$
+A = Q_1R_1
+$$
+where
+$$
+Q_1 = \begin{bmatrix} & & \\ \bs{w}_1 & \cdots & \bs{w}_m \\ & & \end{bmatrix}
+\hspace{5mm}
+R_1 = \begin{bmatrix}
+\bs{w}_1 \cdot \bs{a}_1 & \bs{w}_1 \cdot \bs{a}_2 & \cdots & \bs{w}_1 \cdot \bs{a}_m \\
+& \bs{w}_2 \cdot \bs{a}_2 & \cdots & \bs{w}_2 \cdot \bs{a}_m \\
+& & \ddots & \vdots \\
+& & & \bs{w}_m \cdot \bs{a}_m
+\end{bmatrix}
+$$
+Extend the basis to an orthonormal basis $\{ \bs{w}_1 , \dots , \bs{w}_m , \bs{w}_{m+1} , \dots , \bs{w}_n \}$ of $\mathbb{R}^n$ where \\ $\{ \bs{w}_{m+1} , \dots , \bs{w}_n \}$ is {\it any} orthonormal basis of the orthogonal complement $\mathrm{col}(A)^{\perp}$ and let
+$$
+Q_2 = \begin{bmatrix} & & \\ \bs{w}_{m+1} & \cdots & \bs{w}_n \\ & & \end{bmatrix}
+$$
+Finally, the {\bf QR decomposition} of $A$ is
+$$
+A = QR =
+\begin{bmatrix} Q_1 & Q_2 \end{bmatrix}
+\begin{bmatrix} R_1 \\ 0 \end{bmatrix}
+$$
+where $Q$ is a $n \times n$ orthogonal matrix and $R$ is a $n \times m$ upper triangular matrix. See \href{https://en.wikipedia.org/wiki/QR_decomposition}{Wikipedia: QR decomposition} and also \cite[p.437]{KN}.
+\end{definition}
+
+\begin{example}
+Compute the QR decomposition for the matrix
+$$
+A = \begin{bmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\  1 & 1 & 0 \\  0 & 0 & 0 \\ \end{bmatrix}
+$$
+In a previous example, we found an orthonormal basis of the column space
+$$
+\bs{w}_1 = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 0 \\ 1 \\ 0 \end{bmatrix}
+\hspace{5mm}
+\bs{w}_2 = \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix}
+\hspace{5mm}
+\bs{w}_3 = \frac{1}{\sqrt{2}} \left[ \begin{array}{r} 1 \\ 0 \\ -1 \\ 0 \end{array} \right]
+$$
+Extend to an orthonormal basis of $\mathbb{R}^4$ by $\bs{w}_4 = \begin{bmatrix} 0 & 0 & 0 & 1 \end{bmatrix}^T$. Therefore we have
+$$
+Q =
+\begin{bmatrix}
+1/\sqrt{2} & 0 & 1/\sqrt{2} & 0 \\
+0 & 1 & 0 & 0 \\
+1/\sqrt{2} & 0 & -1/\sqrt{2} & 0 \\
+0 & 0 & 0 & 1
+\end{bmatrix}
+$$
+and
+$$
+R =
+\begin{bmatrix}
+\bs{w}_1 \cdot \bs{a}_1 & \bs{w}_1 \cdot \bs{a}_2 & \bs{w}_1 \cdot \bs{a}_3 \\
+0 & \bs{w}_2 \cdot \bs{a}_2 & \bs{w}_2 \cdot \bs{a}_3 \\
+0 & 0 & \bs{w}_3 \cdot \bs{a}_3 \\
+0 & 0 & 0
+\end{bmatrix}
+=
+\begin{bmatrix}
+\sqrt{2} & \sqrt{2} & 1/\sqrt{2} \\
+0 & 1 & 1 \\
+0 & 0 & 1/\sqrt{2} \\
+0 & 0 & 0
+\end{bmatrix}
+$$
+\end{example}
+
+\begin{note}
+The Gram-Schmidt algorithm shows that the QR decomposition exists but it is not the most efficient way to compute the QR decomposition. Software such as MATLAB {\tt qr} (see \href{https://www.mathworks.com/help/matlab/ref/qr.html}{documentation}) and SciPy {\tt scipy.linalg.qr} (see \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.qr.html}{documentation}) which is built on LAPACK (see \href{https://www.netlib.org/lapack/lug/node128.html#secorthog}{documentation}) use elementary reflectors to construct the matrices $Q$ and $R$.
+\end{note}

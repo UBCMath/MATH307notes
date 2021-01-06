@@ -1,0 +1,167 @@
+\section{Singular Value Decomposition}
+
+\begin{bigidea}
+Any $m \times n$ matrix $A$ has a singular value decomposition $A = P \Sigma Q^T$ where $P$ and $Q$ are orthogonal matrices and $\Sigma$ is a diagonal $m \times n$ matrix.
+\end{bigidea}
+
+\begin{note}
+If $A$ is any $m \times n$ matrix, then $AA^T$ and $A^TA$ are both symmetric therefore both are orthogonally diagonalizable
+$$
+AA^T = PD_1P^T \hspace{5mm} A^TA = QD_2Q^T
+$$
+\end{note}
+
+\begin{proposition}
+Let $A$ be an $m \times n$ matrix.
+\begin{enumerate}
+\item If $\lambda$ is a non-zero eigenvalue of $AA^T$ then $\lambda$ is an eigenvalue of $A^TA$, and vice versa.
+\item All eigenvalues of $AA^T$ (and $A^TA$) are non-negative (that is, $\lambda \geq 0$).
+\end{enumerate}
+See \cite[p.446]{KN}.
+\end{proposition}
+
+\begin{definition}
+The matrices $AA^T$ and $A^TA$ have the same set of positive eigenvalues. Label the eigenvalues in decreasing order $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_r > 0$. Then
+$$
+\sigma_i = \sqrt{\lambda_i} \ \  , \ \ i=1,\dots,r
+$$
+are called the {\bf singular values} of $A$ \cite[p.447]{KN}.
+\end{definition}
+
+\begin{theorem}
+Let $A$ be an $m \times n$ matrix and let $\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r > 0$ be the singular values of $A$. Then there are orthogonal matrices $P$ and $Q$ such that
+$$
+A = P \Sigma Q^T
+\hspace{5mm}
+\text{where}
+\hspace{5mm}
+\Sigma =
+\left[
+\begin{array}{ccc|c}
+\sigma_1 & & & \\
+& \ddots & & \bs{0} \\
+& & \sigma_r & \\ \hline
+& \bs{0} & & \bs{0}
+\end{array} \right]_{m \times n}
+$$
+This is called the {\bf singular value decomposition} of $A$ \cite[p.449]{KN}.
+
+\begin{proof}
+Let $\bs{q}_1,\dots,\bs{q}_n$ be orthonormal eigenvectors of $A^TA$ chosen in order such that
+$$
+A^TA \bs{q}_i = \sigma_i^2 \bs{q}_i \ \ , \ \ i =1,\dots,r
+\hspace{15mm}
+A^TA \bs{q}_i = \bs{0} \ \ , \ \ i =r+1,\dots,n
+$$
+Note that in fact $A\bs{q}_i = \bs{0}$ for $i=r+1,\dots,n$ since
+$$
+\| A\bs{q}_i \|^2 = \bs{q}_i^T A^T A\bs{q}_i = 0 \ \ , \ \ i=r+1,\dots,n
+$$
+Let $Q$ be the orthogonal matrix
+$$
+Q = \begin{bmatrix} & & \\ \bs{q}_1 & \cdots & \bs{q}_n \\ & & \end{bmatrix}
+$$
+Now construct the matrix $P$. Let
+$$
+\bs{p}_i = \frac{1}{\sigma_i} A \bs{q}_i \ \ , \ \ i = 1,\dots,r
+$$
+Note that
+$$
+AA^T \bs{p}_i =  AA^T \left( \frac{1}{\sigma_i} A \bs{q}_i \right)
+= \frac{1}{\sigma_i} A \left( A^TA \bs{q}_i \right)
+= \sigma_i A \bs{q}_i
+= \sigma_i^2 \bs{p}_i
+$$
+therefore each $\bs{p}_i$ is an eigenvector for $AA^T$ with eigenvalue $\sigma_i^2$. Note also that
+$$
+\| \bs{p}_i \|^2 = \bs{p}_i^T \bs{p}_i
+%= \frac{1}{\sigma_i^2} \left( A \bs{q}_i \right) \cdot \left(  A \bs{q}_i \right)
+= \frac{1}{\sigma_i^2}  \bs{q}_i^T A^T A \bs{q}_i
+= \bs{q}_i^T \bs{q}_i = 1
+$$
+therefore each $\bs{p}_i$ is a unit vector. Extend (by Gram-Schmidt algorithm) to an orthonormal basis $
+\bs{p}_1,\dots,\bs{p}_r,\bs{p}_{r+1},\dots,\bs{p}_m$ of $\mathbb{R}^m$. Define the orthogonal matrix
+$$
+P = \begin{bmatrix} & & \\ \bs{p}_1 & \cdots & \bs{p}_m \\ & & \end{bmatrix}
+$$
+Compute
+$$
+AQ = \begin{bmatrix} & & & & & \\ A \bs{q}_1 & \cdots & A\bs{q}_r & A\bs{q}_{r+1} & \cdots & A\bs{q}_n \\ & & & & & \end{bmatrix} = \begin{bmatrix} & & & & & \\ \sigma_1 \bs{p}_1 & \cdots & \sigma_r \bs{p}_r & \bs{0} & \cdots & \bs{0} \\ & & & & & \end{bmatrix}
+$$
+Finally, compute
+$$
+P \Sigma = \begin{bmatrix} & & & & & \\ \bs{p}_1 & \cdots & \bs{p}_r & \bs{p}_{r+1} & \cdots & \bs{p}_n \\ & & & & & \end{bmatrix} \left[
+\begin{array}{ccc|c}
+\sigma_1 & & & \\
+& \ddots & & \bs{0} \\
+& & \sigma_r & \\ \hline
+& \bs{0} & & \bs{0}
+\end{array} \right]
+=
+\begin{bmatrix} & & & & & \\ \sigma_1 \bs{p}_1 & \cdots & \sigma_r \bs{p}_r & \bs{0} & \cdots & \bs{0} \\ & & & & & \end{bmatrix}
+$$
+Therefore $A = P \Sigma Q^T$.
+\end{proof}
+\end{theorem}
+
+\begin{note}
+In the construction of the SVD, we may chose to first construct  either $P$ or $Q$. The connection between the columns for $i = 1,\dots,r$ are given by the equations:
+\begin{align*}
+\bs{q}_i &= \frac{1}{\sigma_i} A^T \bs{p}_i & A^TA \bs{q}_i &= \sigma_i^2 \bs{q}_i & \| \bs{q}_i \| &= 1 \\
+\bs{p}_i &= \frac{1}{\sigma_i} A \bs{q}_i & AA^T \bs{p}_i &= \sigma_i^2 \bs{p}_i & \| \bs{p}_i \| &= 1
+\end{align*}
+\end{note}
+
+\begin{example}
+Construct the SVD for
+$$
+A = \left[ \begin{array}{rr} 1 & 1 \\ 1 & -1 \\ 0 & 1 \end{array} \right]
+$$
+Since $A^TA$ is a smaller matrix, let us first construct $Q$. Compute
+$$
+A^TA = \begin{bmatrix} 2 & 0 \\ 0 & 3 \end{bmatrix}
+$$
+Therefore $\sigma_1 = \sqrt{3}$ and $\sigma_2 = \sqrt{2}$. By inspection, we find
+$$
+\bs{q}_1 = \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+\hspace{5mm}
+\bs{q}_2 = \begin{bmatrix} 1 \\ 0 \end{bmatrix}
+\hspace{5mm}
+\Rightarrow
+\hspace{5mm}
+Q = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
+$$
+Construct the matrix $P$
+$$
+\bs{p}_1 = \frac{1}{\sigma_1} A\bs{q}_1 = \frac{1}{\sqrt{3}} \left[ \begin{array}{r} 1 \\ -1 \\ 1 \end{array} \right]
+\hspace{5mm}
+\bs{p}_2 = \frac{1}{\sigma_2} A\bs{q}_2 = \frac{1}{\sqrt{2}} \left[ \begin{array}{r} 1 \\ 1 \\ 0 \end{array} \right]
+$$
+Extend to an orthonormal basis of $\mathbb{R}^3$ by finding $\bs{p}_3$ orthogonal to $\bs{p}_1$ and $\bs{p}_2$. There are different ways of doing this. Setup equations $\bs{p}_1 \cdot \bs{p}_3 = 0$ and $\bs{p}_2 \cdot \bs{p}_3 = 0$ in a linear system and solve
+$$
+\left[ \begin{array}{rrr|r} 1 & -1 & \phantom{+}1 & 0 \\ 1 & 1 & 0 & 0 \end{array} \right]
+\hspace{5mm}
+\Rightarrow
+\hspace{5mm}
+\bs{p}_3 = \frac{1}{\sqrt{6}} \left[ \begin{array}{r} -1 \\ 1 \\ 2 \end{array} \right]
+$$
+Therefore the SVD is given by
+$$
+A = P \Sigma Q^T
+=
+\left[ \begin{array}{rcr} 1/\sqrt{3} & 1/\sqrt{2} & -1/\sqrt{6} \\ -1/\sqrt{3} & 1/\sqrt{2} & 1/\sqrt{6} \\ 1/\sqrt{3} & 0 & 2/\sqrt{6} \end{array} \right]
+\left[ \begin{array}{rr} \sqrt{3} & 0 \\ 0 & \sqrt{2} \\ 0 & 0 \end{array} \right]  \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}^T
+$$
+\end{example}
+
+\begin{proposition}
+Let $A = P \Sigma Q^T$.
+\begin{itemize}
+\item $\mathrm{rank}(A) = r$
+\item $\| A \| = \sigma_1$
+\item $\| A^{-1} \| = 1/\sigma_r$
+\item $\mathrm{cond}(A) = \sigma_1 / \sigma_r$
+\item $\mathrm{null}(A) = \mathrm{span} \{ \bs{q}_{r+1},\dots,\bs{q}_n \}$
+\item $\mathrm{range}(A) = \mathrm{span} \{ \bs{p}_1,\dots,\bs{p}_r \}$
+\end{itemize}
+\end{proposition}

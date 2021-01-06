@@ -1,0 +1,36 @@
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,hyperref,graphicx,enumitem,mdframed,xcolor,tikz}
+\graphicspath{{./img/}}
+\hypersetup{urlcolor=blue,linkcolor=blue,citecolor=blue,colorlinks=true}
+\usepackage[nottoc]{tocbibind}
+\setcounter{tocdepth}{2}
+
+\parindent=0in
+\allowdisplaybreaks
+
+\newcommand{\ds}{\displaystyle}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\underconstruction}{{\it Under construction}}
+
+\newenvironment{bigidea}{{\bf Big Idea.}}{}
+\newenvironment{definition}{{\bf Definition.}}{}
+\newenvironment{example}{{\bf Example.}}{}
+\newenvironment{proposition}{{\bf Proposition.}}{}
+\newenvironment{note}{{\bf Note.}}{}
+\newenvironment{theorem}{{\bf Theorem.}}{}
+
+\surroundwithmdframed[style=bigideastyle]{bigidea}
+\surroundwithmdframed[style=definitionstyle]{definition}
+\surroundwithmdframed[style=definitionstyle]{example}
+\surroundwithmdframed[style=definitionstyle]{proposition}
+\surroundwithmdframed[style=definitionstyle]{note}
+\surroundwithmdframed[style=definitionstyle]{theorem}
+
+\mdfdefinestyle{definitionstyle}{
+	innerleftmargin=10pt,innerrightmargin=10pt,
+	innertopmargin=10pt,innerbottommargin=12pt,
+	needspace=90pt,splittopskip=20pt,splitbottomskip=10pt}
+	
+\mdfdefinestyle{bigideastyle}{
+	innertopmargin=10pt,innerbottommargin=12pt,
+	backgroundcolor=gray!5}

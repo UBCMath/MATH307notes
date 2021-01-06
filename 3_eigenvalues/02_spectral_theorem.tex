@@ -1,0 +1,72 @@
+\section{Spectral Theorem}
+
+\begin{bigidea}
+If $A$ is a symmetric matrix then the eigenvalues of $A$ are real numbers, eigenvectors (for distinct eigenvalues) are orthogonal and $A$ is orthogonally diagonalizable $A = PDP^T$.
+\end{bigidea}
+
+\begin{proposition}
+All eigenvalues of a symmetric matrix are real numbers \cite[p.307]{KN}.
+
+\begin{proof}
+Let $\lambda$ be an eigenvalue of a symmetric matrix $A$ with eigenvector $\bs{v}$. Compute $\bs{v} \cdot \overline{(A \bs{v})}$ in two different ways. First, compute
+$$
+\bs{v} \cdot \overline{(A \bs{v})}
+= \bs{v} \cdot \overline{(\lambda \bs{v})}
+= \overline{\lambda} \, \bs{v} \cdot  \overline{\bs{v}}
+= \overline{\lambda} \, \| \bs{v} \|^2
+$$
+Now compute
+$$
+\bs{v} \cdot \overline{(A \bs{v})}
+= \bs{v} \cdot (A \overline{\bs{v}} )
+= (A^T \bs{v}) \cdot \overline{\bs{v}}
+= (A \bs{v}) \cdot \overline{\bs{v}}
+= \lambda \, \bs{v} \cdot \overline{\bs{v}}
+= \lambda \, \| \bs{v} \|^2
+$$
+Since $\| \bs{v} \| \not= 0$ we have $\lambda = \overline{\lambda}$ and therefore $\lambda$ is a real number.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}
+Let $A$ be a symmetric matrix and let $\lambda_1$ and $\lambda_2$ be distinct eigenvalues of $A$ with eigenvectors $\bs{v}_1$ and $\bs{v}_2$ respectively. Then $\bs{v}_1$ and $\bs{v}_2$ are orthogonal \cite[p.427]{KN}.
+
+\begin{proof}
+Compute $(A \bs{v}_1) \cdot \bs{v}_2$ in two different ways. First, compute
+$$
+(A \bs{v}_1) \cdot \bs{v}_2
+= (\lambda_1 \bs{v}_1) \cdot \bs{v}_2
+= \lambda_1 \, \bs{v}_1 \cdot \bs{v}_2
+$$
+Now compute
+$$
+(A \bs{v}_1) \cdot \bs{v}_2
+= \bs{v}_1 \cdot (A^T \bs{v}_2)
+= \bs{v}_1 \cdot (A \bs{v}_2)
+= \lambda_2 \, \bs{v}_1 \cdot \bs{v}_2
+$$
+Therefore
+$$
+\lambda_1 \, \bs{v}_1 \cdot \bs{v}_2 = \lambda_2 \, \bs{v}_1 \cdot \bs{v}_2
+\ \ \Rightarrow \ \
+(\lambda_1 - \lambda_2) \, \bs{v}_1 \cdot \bs{v}_2 = 0
+\ \ \Rightarrow \ \
+\bs{v}_1 \cdot \bs{v}_2 = 0
+$$
+since $\lambda_1 - \lambda_2 \not = 0$ because the eigenvalues are distinct.
+\end{proof}
+\end{proposition}
+
+\begin{theorem}
+Let $A$ be a symmetric matrix. Then there exists an orthogonal matrix $P$ and diagonal matrix $D$ such that $A = PDP^T$. In other words, $A$ is orthogonally diagonalizable \cite[p.425]{KN}.
+\end{theorem}
+
+\begin{note}
+If $A$ is symmetric with $A = PDP^T$ then
+$$
+P = \begin{bmatrix} & & \\ \bs{v}_1 & \cdots & \bs{v}_n \\ & & \end{bmatrix}
+\hspace{5mm}
+D = \begin{bmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n \end{bmatrix}
+$$
+where $\lambda_1,\dots,\lambda_n$ are the eigenvalues of $A$ with corresponding orthonormal eigenvectors $\bs{v}_1,\dots,\bs{v}_n$.
+\end{note}

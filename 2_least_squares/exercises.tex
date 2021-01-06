@@ -1,0 +1,61 @@
+\section{Exercises}
+
+\begin{enumerate}[leftmargin=*]
+\item Determine whether the statement is {\bf True} or {\bf False}.
+\begin{enumerate}
+%\item Let $\bs{u} \in \mathbb{R}^n$ be a nonzero vector and let $\displaystyle H = I - \frac{2}{\| \bs{u} \|^2}\bs{u} \bs{u}^T$ be the corresponding elementary reflector. There is a unique unit vector $\bs{v}$ such that $H \bs{v} = \bs{v}$.
+\item Let $\bs{u} \in \mathbb{R}^n$ be a nonzero vector and let $\displaystyle H = I - \frac{2}{\| \bs{u} \|^2}\bs{u} \bs{u}^T$ be the corresponding elementary reflector. Then  $H \bs{v} = \bs{v}$ for all $\bs{v} \in \mathrm{span} \{ \bs{u} \}^{\perp}$.
+\item Let $U,V \subset \mathbb{R}^n$ be subspaces such that $U$ and $V$ are orthogonal. If $\mathrm{dim}(U) = m$ then $\mathrm{dim}(U) = m$ then $\mathrm{dim}(V) = n - m$.
+\item If $A^TA$ is a diagonal matrix, then the columns of $A$ are orthogonal.
+\item If $AA^T$ is a diagonal matrix, then the columns of $A$ are orthogonal.
+\item If $A^TA$ is a diagonal matrix, then the rows of $A$ are orthogonal.
+\item If $AA^T$ is a diagonal matrix, then the rows of $A$ are orthogonal.
+\item Let $U \subset \mathbb{R}^n$ be a subspace. If $P_1$ is the orthogonal projector onto $U$ and $P_2$ is the orthogonal projector onto the orthogonal complement $U^{\perp}$, then $I = P_1 + P_2$.
+\item Let $U \subset \mathbb{R}^n$ be a subspace. If $P_1$ is the orthogonal projector onto $U$ and $P_2$ is the orthogonal projector onto the orthogonal complement $U^{\perp}$, then $P_1P_2 = P_2P_1 = 0$.
+\item Let $\bs{u}_1,\bs{u}_2,\bs{u}_3 \in \mathbb{R}^3$ be nonzero vectors. If $\bs{u}_1$ is orthogonal to $\bs{u}_2$, and $\bs{u}_2$ is orthogonal to $\bs{u}_3$ then $\bs{u}_1$ is orthogonal to $\bs{u}_3$.
+\item Let $A$ be a $m \times n$ matrix with $m \geq n$ and let $\bs{b} \in \mathbb{R}^m$. There is a unique vector $\bs{x} \in \mathbb{R}^n$ which minimizes the norm of the residual $\| A \bs{x} - \bs{b} \|$.
+\item Let $A=QR$ where $Q$ is an orthogonal matrix and $R$ is upper triangular. Then $\| A \|_p = \| R \|_p$ for any $p \geq 1$.
+\end{enumerate}
+\item Find the elementary reflector $H$ corresponding to the vector $\bs{u} = \begin{bmatrix} 2 & 1 & 0 & 1 \end{bmatrix}^T$.
+\item Let $U \subset \mathbb{R}^3$ be the subspace spanned by
+$$
+\bs{u}_1 = \left[ \begin{array}{r} 1 \\ 1 \\ 1 \end{array} \right]
+\ \
+\bs{u}_2 = \left[ \begin{array}{r} -1 \\ 1 \\ 1 \end{array} \right]
+$$
+Find the vector $\bs{x} \in U$ which is closest to the vector
+$$
+\bs{b} = \left[ \begin{array}{r} 1 \\ 2 \\ 1 \end{array} \right]
+$$
+\item Let $U \subset \mathbb{R}^3$ be the subspace spanned by
+$$
+\bs{u}_1 = \left[ \begin{array}{r} 1 \\ 1 \\ 1 \end{array} \right]
+\ \
+\bs{u}_2 = \left[ \begin{array}{r} 1 \\ 2 \\ 1 \end{array} \right]
+$$
+Find the vector $\bs{x} \in U$ which is closest to the vector
+$$
+\bs{b} = \left[ \begin{array}{r} 1 \\ 1 \\ 2 \end{array} \right]
+$$
+\item Find an elementary reflector $H$ such that $\displaystyle HA = \displaystyle \begin{bmatrix} * & * & * \\ 0 & * & * \\ 0 & * & * \\ 0 & * & * \end{bmatrix}$ where
+\begin{enumerate}
+\item $\displaystyle A = \begin{bmatrix} 1 & 2 & 1 \\ 0 & 0 & 1 \\ 2 & 2 & 1 \\ 2 & 1 & 0 \end{bmatrix}$
+\item $\displaystyle A = \begin{bmatrix} 1 & 2 & 1 \\ 1 & 0 & 1 \\ 1 & 2 & 1 \\ 1 & 1 & 0 \end{bmatrix}$
+\end{enumerate}
+\item Let $A = QR$ where
+$$
+Q = \left[ \begin{array}{rrrrr} 0 & 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 1 \end{array} \right]
+\ \
+R = \left[ \begin{array}{rrrr} 1 & 1 & 1 & 1 \\ 0 & 1 & 1 & 1 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 0 & 0 \end{array} \right]
+$$
+Find the least squares approximation of the system $A\bs{x} = \bs{b}$ for:
+\begin{enumerate}
+\item $\bs{b} = \begin{bmatrix} -2 & -1 & 0 & 1 & 2 \end{bmatrix}^T$.
+\item $\bs{b} = \begin{bmatrix} 1 & -2 & 2 & 0 & 1 \end{bmatrix}^T$.
+\end{enumerate}
+\item Setup (but do not solve) a linear system $B \bs{c} = \bs{y}$ where the solution is the coefficient vector $\bs{c} = [c_0 \ \ c_1 \ \ c_2]^T$ such that the function
+$$
+f(t) = c_0  + c_1\cos(2 \pi t) + c_2 \sin(2 \pi t)
+$$
+bests fits the data $(0,1),(1/4,3),(1/2,2),(3/4,-1),(1,0)$.
+\end{enumerate}

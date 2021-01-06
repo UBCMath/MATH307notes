@@ -1,0 +1,228 @@
+\section{Discrete Fourier Transform}
+
+\begin{bigidea}
+The discrete Fourier transform (DFT) is the orthogonal projection onto the Fourier basis vectors $\bs{f}_0 , \dots, \bs{f}_{N-1}$.
+\end{bigidea}
+
+\begin{definition}
+An {\bf $N$th root of unity} is a complex number $\omega$ such that $\omega^N = 1$.
+\end{definition}
+
+\begin{proposition}
+Let $\omega_N = e^{2 \pi i / N}$. Then $\omega_N$ is an $N$th root of unity and $1,\omega_N,\omega_N^2,\dots,\omega_N^{N-1}$ are all the $N$th roots of unity.
+\end{proposition}
+
+\begin{proposition}
+Let $\omega_N = e^{2 \pi i / N}$.
+\begin{enumerate}
+\item $\overline{\omega}_N = \omega_N^{-1} = \omega_N^{N-1}$
+\item $\displaystyle \omega_N^k = \cos\left( \frac{2 \pi k}{N} \right) + i \sin \left( \frac{2 \pi k}{N} \right)$
+\end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+Let $\omega_N = e^{2 \pi i / N}$ and let $k$ be an integer such that $0<k<N$. Then
+$$
+\sum_{n=0}^{N-1} \omega_N^{nk} = 0
+$$
+
+\begin{proof}
+The sum is a geometric series
+$$
+\sum_{n=0}^{N-1} r^n = \frac{1 - r^N}{1 - r}
+$$
+and so with $r = \omega_N^k$ we have
+$$
+\sum_{n=0}^{N-1} \omega_N^{nk} =  \frac{1 - \omega_N^{kN}}{1 - \omega_N^k} = 0
+$$
+since $\omega_N^{kN} = 1$ and $\omega_N^k \not= 1$.
+\end{proof}
+\end{proposition}
+
+\begin{definition}
+The {\bf standard basis} of $\mathbb{C}^N$ is $\bs{e}_0 , \dots, \bs{e}_{N-1}$ where $\bs{e}_k$ is the vector with all 0s except 1 in index $k$
+$$
+\bs{e}_k = \begin{bmatrix} \bs{0} \\ 1 \\ \bs{0} \end{bmatrix} \leftarrow \text{index } k
+$$
+Use 0-indexing (as in Python) such that the first entry is at index 0. For example, for $N=3$,
+$$
+\bs{e}_0 = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} \hspace{10mm}
+\bs{e}_1 = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} \hspace{10mm}
+\bs{e}_2 = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}
+$$
+\end{definition}
+
+\begin{definition}
+Let $N$ be a positive integer and let $\omega_N = e^{2 \pi i / N}$. The {\bf Fourier basis} of $\mathbb{C}^N$ is $\bs{f}_0 , \dots, \bs{f}_{N-1}$ where
+$$
+\renewcommand{\arraystretch}{1.5}
+\bs{f}_k = \begin{bmatrix} 1 \\ \omega^k_N \\ \omega^{2k}_N \\ \vdots \\ \omega^{(N-1)k}_N \end{bmatrix}
+\renewcommand{\arraystretch}{1}
+$$
+\end{definition}
+
+\begin{example}
+For $N=2$, $\omega_2 = -1$ and the Fourier basis of $\mathbb{C}^2$ is
+$$
+\bs{f}_0 = \left[ \begin{array}{r} 1 \\ 1 \end{array} \right]
+\hspace{10mm}
+\bs{f}_1 = \left[ \begin{array}{r} 1 \\ -1 \end{array} \right]
+$$
+For $N=3$, $\omega_3 = e^{2 \pi i/3} = (-1 + \sqrt{3}i)/2$ and the Fourier basis of $\mathbb{C}^3$ is
+$$
+\bs{f}_0 = \left[ \begin{array}{r} 1 \\ 1 \\ 1 \end{array} \right]
+\hspace{10mm}
+\bs{f}_1 = \left[ \begin{array}{c} 1 \\ (-1 + \sqrt{3}i)/2 \\ (-1 - \sqrt{3}i)/2 \end{array} \right]
+\hspace{10mm}
+\bs{f}_2 = \left[ \begin{array}{c} 1 \\ (-1 - \sqrt{3}i)/2 \\ (-1 + \sqrt{3}i)/2 \end{array} \right]
+$$
+For $N=4$, $\omega_4 = i$ and the Fourier basis of $\mathbb{C}^4$ is
+$$
+\bs{f}_0 = \left[ \begin{array}{r} 1 \\ 1 \\ 1 \\ 1 \end{array} \right]
+\hspace{10mm}
+\bs{f}_1 = \left[ \begin{array}{r} 1 \\ i \\ -1 \\ -i \end{array} \right]
+\hspace{10mm}
+\bs{f}_2 = \left[ \begin{array}{r} 1 \\ -1 \\ 1 \\ -1 \end{array} \right]
+\hspace{10mm}
+\bs{f}_3 = \left[ \begin{array}{r} 1 \\ -i \\ -1 \\ i \end{array} \right]
+$$
+\end{example}
+
+\begin{proposition}
+The Fourier basis $\bs{f}_0 , \dots, \bs{f}_{N-1}$ satisfies
+$$
+\langle \bs{f}_k , \bs{f}_{\ell} \rangle = \left\{ \begin{array}{cl} N & \text{if } k = \ell \\ 0 & \text{otherwise} \end{array} \right.
+$$
+Therefore the Fourier basis is an orthogonal basis of $\mathbb{C}^N$.
+
+\begin{proof}
+Compute
+$$
+\langle \bs{f}_k , \bs{f}_{\ell} \rangle
+= \sum_{n=0}^{N-1} \omega_N^{nk} \omega_N^{-n\ell}
+= \sum_{n=0}^{N-1} \omega_N^{n(k -\ell)}
+$$
+We showed in a previous proposition that the sum is equal to 0 if $k \not= \ell$. If $k = \ell$ then clearly the sum is equal to $N$.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}
+Let $0<k<N$. Then
+$$
+\overline{\bs{f}}_k = \bs{f}_{N-k}
+$$
+\begin{proof}
+By definition and using $\omega_N^N = 1$ we have
+$$
+\renewcommand{\arraystretch}{1.5}
+\overline{\bs{f}}_k = \begin{bmatrix} 1 \\ \overline{\omega}^k_N \\ \overline{\omega}^{2k}_N \\ \vdots \\ \overline{\omega}^{(N-1)k}_N \end{bmatrix}
+= \begin{bmatrix} 1 \\ \omega^{-k}_N \\ \omega^{-2k}_N \\ \vdots \\ \omega^{-(N-1)k}_N \end{bmatrix}
+= \begin{bmatrix} 1 \\ \omega^{N-k}_N \\ \omega^{2(N-k)}_N \\ \vdots \\ \omega^{(N-1)(N-k)}_N \end{bmatrix}
+= \bs{f}_{N-k}
+\renewcommand{\arraystretch}{1}
+$$
+\end{proof}
+\end{proposition}
+
+\begin{definition}
+Let $\bs{x} \in \mathbb{C}^N$. The {\bf discrete Fourier transform} of $\bs{x}$ is
+$$
+\mathrm{DFT}(\bs{x}) = F_N \bs{x}
+$$
+where $F_N$ is the {\bf Fourier matrix}
+$$
+\renewcommand{\arraystretch}{1.5}
+F_N =
+\begin{bmatrix} & & \overline{\bs{f}}^T_0 & & \\ & & \overline{\bs{f}}^T_1 & & \\ & & \vdots & & \\ & & \overline{\bs{f}}^T_{N-1} & & \end{bmatrix}
+=
+\renewcommand{\arraystretch}{1.25}
+\begin{bmatrix}
+1 & 1 & 1 & \cdots & 1 \\
+1 & \overline{\omega}_N & \overline{\omega}_N^2 & \cdots & \overline{\omega}_N^{N-1} \\
+1 & \overline{\omega}_N^2 & \overline{\omega}_N^4 & \cdots & \overline{\omega}_N^{2(N-1)} \\
+1 & \vdots & \vdots & \ddots & \vdots \\
+1 & \overline{\omega}_N^{N-1} & \overline{\omega}_N^{2(N-1)} & \cdots & \overline{\omega}_N^{(N-1)^2}
+\end{bmatrix}
+\renewcommand{\arraystretch}{1}
+$$
+\end{definition}
+
+\begin{note}
+Expand $\bs{x}$ in terms of the Fourier basis
+$$
+\bs{x} = \frac{\langle \bs{x} , \bs{f}_0 \rangle}{\langle \bs{f}_0 , \bs{f}_0 \rangle} \bs{f}_0 + \cdots + \frac{\langle \bs{x} , \bs{f}_{N-1} \rangle}{\langle \bs{f}_{N-1} , \bs{f}_{N-1} \rangle} \bs{f}_{N-1}
+$$
+Note that $\langle \bs{f}_k , \bs{f}_k \rangle = N$ for each $k=0,\dots,N-1$ and write as matrix multiplication
+$$
+\bs{x} = \frac{1}{N}
+\begin{bmatrix} & & \\ \bs{f}_0 & \cdots & \bs{f}_{N-1} \\ & & \end{bmatrix}
+\begin{bmatrix} \langle \bs{x} , \bs{f}_0 \rangle \\ \langle \bs{x} , \bs{f}_1 \rangle \\ \vdots \\ \langle \bs{x} , \bs{f}_{N-1} \rangle \end{bmatrix}
+= \frac{1}{N} 
+\begin{bmatrix} & & \\ \bs{f}_0 & \cdots & \bs{f}_{N-1} \\ & & \end{bmatrix}
+\renewcommand{\arraystretch}{1.5}
+\begin{bmatrix} & & \overline{\bs{f}}^T_0 & & \\ & & \overline{\bs{f}}^T_1 & & \\ & & \vdots & & \\ & & \overline{\bs{f}}^T_{N-1} & & \end{bmatrix}
+\renewcommand{\arraystretch}{1}
+\bs{x}
+$$
+Therefore $F_N \bs{x}$ is the vector of coefficients of $\bs{x}$ with respect to the Fourier basis (up to multiplication by $N$).
+\end{note}
+
+\begin{definition}
+The DFT is used to study sound, images and any kind of information that can be represented by a vector $\bs{x} \in \mathbb{C}^N$. Therefore, in the context of the DFT, we use the term {\bf signal} to refer to a (column) vector $\bs{x} \in \mathbb{C}^N$ and we use the notation
+$$
+\bs{x} = \begin{bmatrix} \ x_0 & x_1 & x_2 & \cdots & x_{N-1} \ \end{bmatrix}^T
+\hspace{10mm}
+\bs{x}[n] = x_n
+$$
+\end{definition}
+
+\begin{proposition}
+Let $\bs{x}$ be a real signal (that is, $\bs{x}[k] \in \mathbb{R}$ for each $k=0,\dots,N-1$) and let $\bs{y} = \mathrm{DFT}(\bs{x})$. Then
+$$
+\overline{\bs{y}[k]} = \bs{y}[N-k]
+$$
+
+\begin{proof}
+Compute from the definition
+\begin{align*}
+\overline{\bs{y}[k]} &= \overline{\langle \bs{x} , \bs{f}_k \rangle} =  \langle \bs{f}_k , \bs{x} \rangle = \sum_{n=0}^{N-1} \omega_N^{nk} \overline{x}_n \\
+&= \sum_{n=0}^{N-1} \omega_N^{nk-nN} x_n \\
+&= \sum_{n=0}^{N-1} \omega_N^{-(N-k)n} x_n = \bs{y}[N-k]
+\end{align*}
+
+\end{proof}
+\end{proposition}
+
+\begin{proposition}
+For each $k=0,\dots,N-1$, we have
+$$
+\mathrm{DFT}(\bs{f}_k) = N \bs{e}_k
+$$
+where $\bs{e}_k$ is the $k$th standard basis vector.
+
+\begin{proof}
+By definition of DFT and the fact $\langle \bs{f}_k , \bs{f}_{\ell} \rangle = 0$ when $k \not= \ell$ and $\langle \bs{f}_k , \bs{f}_k \rangle = N$, compute
+$$
+\mathrm{DFT}(\bs{f}_k) = 
+\renewcommand{\arraystretch}{1.5}
+\begin{bmatrix} & & \overline{\bs{f}}^T_0 & & \\ & & \vdots & & \\ & & \overline{\bs{f}}^T_{N-1} & & \end{bmatrix} \bs{f}_k
+=
+\begin{bmatrix} \langle \bs{f}_k , \bs{f}_0 \rangle \\ \vdots \\ \langle \bs{f}_k , \bs{f}_{N-1} \rangle \end{bmatrix}
+=
+\begin{bmatrix} \bs{0} \\ N \\ \bs{0} \end{bmatrix} \leftarrow \text{index } k
+\renewcommand{\arraystretch}{1}
+$$
+and so $\mathrm{DFT}(\bs{f}_k) = N \bs{e}_k$.
+\end{proof}
+\end{proposition}
+
+\begin{definition}
+Let $\bs{y} \in \mathbb{C}^N$. The {\bf inverse discrete Fourier transform} of $\bs{y}$ is
+$$
+\mathrm{IDFT}(\bs{y}) = \frac{1}{N} \overline{F}^T_N \bs{y}
+$$
+\end{definition}
+
+\begin{note}
+The Fourier matrix $F_N$ is {\it not} unitary however the matrix $\frac{1}{\sqrt{N}} F_N$ is unitary.
+\end{note}

@@ -1,0 +1,129 @@
+\section{Review: Complex Numbers, Vectors and Matrices}
+
+\begin{bigidea}
+A complex number can be represented in the form $z = a + i b$ and also in polar form $z = r e^{i \theta}$. The set of vectors of length $n$ with complex entries is a complex vector space $\mathbb{C}^n$ with inner product $\langle \bs{u} , \bs{v} \rangle = \bs{u}^T \overline{\bs{v}}$.
+\end{bigidea}
+
+\begin{definition}
+A {\bf complex number} \cite[p.597]{KN} is of the form
+$$
+z = a + i b
+$$
+where $i = \sqrt{-1}$ and $a,b \in \mathbb{R}$. The complex number $i$ satisfies $i^2 = -1$, the real number $a$ is called the {\bf real part} of $z$ and $b$ is the {\bf imaginary part}, and we write $\mathrm{Re}(z) = a$ and $\mathrm{Im}(z) = b$. The {\bf polar form} \cite[p.601]{KN} of a complex number $z = a + i b$ is
+$$
+z = r e^{i \theta}
+$$
+where $r = \sqrt{a^2 + b^2}$ and $\theta = \arctan(b/a)$. We visualize the {\bf set of complex numbers} $\mathbb{C}$ as a 2-dimensional real vector space:
+\begin{center}
+\begin{tikzpicture}[scale=2]
+\draw [->] (-1,0) -- (1,0) node[right] {Re};
+\draw [->] (0,-0.5) -- (0,1) node[above] {Im};
+\filldraw (0.8,0.8) circle (1pt) node[right] {$z = a + ib$};
+\draw[dashed] (0,0.8) -- (0.8,0.8) -- (0.8,0);
+\draw[dashed] (0,0) -- (0.8,0.8) node[pos=0.5,above] {$r$};
+\draw (0.4,0) node[below right] {$a$};
+\draw (0.8,0.4) node[right] {$b$};
+\draw (0.3,0.14) node {$\theta$};
+\end{tikzpicture}
+\end{center}
+\end{definition}
+
+\begin{theorem}
+{\bf Euler's formula} is
+$$
+e^{i \theta} = \cos \theta + i \sin \theta
+$$
+See \cite[p.602]{KN}.
+\end{theorem}
+
+\begin{definition}
+Let $z = a + ib$ and $z = re^{i \theta}$ in polar form.
+\begin{enumerate}
+\item The {\bf modulus} of $z$ is $|z| = r = \sqrt{a^2 + b^2}$.
+\item The {\bf angle} (or {\bf argument}) of $z$ is $\angle z = \theta = \arctan(b/a)$ (or $\mathrm{arg}(z) = \theta$).
+\item The {\bf conjugate} of $z$ is $\overline{z} = a - ib = re^{- i \theta}$.
+\end{enumerate}
+See \cite[p.599]{KN}.
+\end{definition}
+
+\begin{proposition}
+$$
+z^{-1} = \frac{\overline{z} \ \, }{|z|^2}
+$$
+
+\begin{proof}
+Let $z = a + ib$. Then
+$$
+z^{-1} = \frac{1}{z} = \frac{\overline{z}}{z \overline{z}}
+$$
+and we see
+$$
+z \overline{z} = (a + ib)(a - ib) = a^2 + b^2 = |z|^2
+$$
+\end{proof}
+\end{proposition}
+
+\begin{definition}
+The {\bf complex vector space} $\mathbb{C}^n$ \cite[p.461]{KN} is the set of vectors of length $n$
+$$
+\bs{v} = \begin{bmatrix} v_1 \\ \vdots \\ v_n \end{bmatrix}
+$$
+with complex entries $v_1, \dots, v_n \in \mathbb{C}$. The {\bf conjugate} of a vector $\bs{v} \in \mathbb{C}^n$ is given by the conjugate of each entry
+$$
+\overline{\bs{v}} = \begin{bmatrix} \overline{v}_1 \\ \vdots \\ \overline{v}_n \end{bmatrix}
+$$
+\end{definition}
+
+\begin{definition}
+The {\bf standard inner product} \cite[p.462]{KN} of vectors $\bs{u},\bs{v} \in \mathbb{C}^n$ is
+$$
+\langle \bs{u} , \bs{v} \rangle = \bs{u}^T \overline{ \bs{v} } = u_1 \overline{v}_1 + \cdots + u_n \overline{v}_n
+$$
+\end{definition}
+
+\begin{proposition}
+Let $\bs{u} , \bs{v} \in \mathbb{C}^n$ and let $c \in \mathbb{C}$.
+\begin{enumerate}
+\item $\langle c \, \bs{u} , \bs{v} \rangle = c \, \langle \bs{u} , \bs{v} \rangle$
+\item $\langle \bs{u} , c \, \bs{v} \rangle = \overline{c} \, \langle \bs{u} , \bs{v} \rangle$
+\item $\langle \bs{u} , \bs{v} \rangle = \overline{\langle \bs{v} , \bs{u} \rangle}$
+\item $\langle \bs{v} , \bs{v} \rangle \geq 0$ for all $\bs{v}$, and $\langle \bs{v} , \bs{v} \rangle = 0$ if and only if $\bs{v} = \bs{0}$ is the zero vector.
+\end{enumerate}
+See \cite[p.462]{KN}.
+\end{proposition}
+
+\begin{definition}
+The {\bf norm} \cite[p.463]{KN} of $\bs{v} \in \mathbb{C}^n$ is
+$$
+\| \bs{v} \| = \sqrt{ \langle \bs{v} , \bs{v} \rangle } = \sqrt{ |v_1|^2 + \cdots + |v_n|^2 }
+$$
+\end{definition}
+
+\begin{definition}
+Complex vectors $\bs{u} , \bs{v} \in \mathbb{C}^n$ are {\bf orthogonal} \cite[p.466]{KN} if $ \langle \bs{u} , \bs{v} \rangle = 0$.
+\end{definition}
+
+\begin{definition}
+A complex matrix $A$ is {\bf hermitian} \cite[p.464]{KN} if $A = \overline{A}^T$.
+\end{definition}
+
+\begin{proposition}
+If $A$ is hermitian then $\langle A \bs{u} , \bs{v} \rangle = \langle \bs{u} , A \bs{v} \rangle$ for all $\bs{u} , \bs{v} \in \mathbb{C}^n$.
+
+\begin{proof}
+See \cite[p.464]{KN}.
+\end{proof}
+\end{proposition}
+
+\begin{definition}
+A complex matrix $A$ is {\bf unitary} \cite[p.466]{KN} if $A^{-1} = \overline{A}^T$.
+\end{definition}
+
+\begin{proposition}
+If $A$ is unitary then $\langle A \bs{u} , A \bs{v} \rangle = \langle \bs{u} , \bs{v} \rangle$ for all $\bs{u} , \bs{v} \in \mathbb{C}^n$.
+
+\begin{proof}
+See \cite[p.466]{KN}.
+\end{proof}
+\end{proposition}
+

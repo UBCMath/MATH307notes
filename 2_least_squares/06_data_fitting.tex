@@ -1,0 +1,74 @@
+\section{Fitting Models to Data}
+
+\begin{bigidea}
+Least squares data fitting computes coefficients $c_1,\dots,c_n$ such that the model function $f(t,\bs{c}) = c_1 f_1(t) + \cdots + c_n f_n(t)$ best fits the data $(t_1,y_1),\dots,(t_m,y_m)$.
+\end{bigidea}
+
+\begin{definition}
+Suppose we have $m$ points
+$$
+(t_1,y_1) , \dots , (t_m,y_m)
+$$
+and we want to find a line
+$$
+y=c_1 + c_2t
+$$
+that ``best fits" the data. There are different ways to quantify what ``best fit" means but the most common method is called \href{https://en.wikipedia.org/wiki/Simple_linear_regression}{\bf least squares linear regression}. In least squares linear regression, we want to minimize the sum of squared errors
+$$
+SSE = \sum_i (y_i - (c_1 + c_2 t_i))^2
+$$
+In matrix notation, the sum of squared errors is
+$$
+SSE = \Vert \bs{y} - A \bs{c} \Vert^2
+$$
+where
+$$
+\bs{y} = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_m \end{bmatrix}
+\ \ \
+A = \begin{bmatrix} 1 & t_1 \\ 1 & t_2 \\ \vdots & \vdots \\ 1 & t_m \end{bmatrix}
+\ \ \
+\bs{c} = \begin{bmatrix} c_1 \\ c_2 \end{bmatrix}
+$$
+We assume that $m \geq 2$ and $t_i \not= t_j$ for all $i \not= j$ (which implies $\mathrm{rank}(A) = 2$). Therefore the vector of coefficients
+$$
+\bs{c} = \begin{bmatrix} c_1 \\ c_2 \end{bmatrix}
+$$
+is the least squares approximation of the system $A \bs{c} \cong \bs{y}$.
+\end{definition}
+
+\begin{definition}
+More generally, given $m$ data points
+$$
+(t_1,y_1) , \dots , (t_m,y_m)
+$$
+and a {\bf model function} $f(t,\bs{c})$ which depends on parameters $c_1,\dots,c_n$, the {\bf least squares data fitting problem} consists of computing parameters $c_1,\dots,c_n$ which minimize the sum of squared errors
+$$
+SSE = \sum_i (y_i - f(t_i,\bs{c}))^2
+$$
+If the model function is of the form
+$$
+f(t,\bs{c}) = c_1 f_1(t) + \cdots + c_n f_1(t)
+$$
+for some functions $f_1(t),\dots,f_n(t)$ then we say the data fitting problem is {\bf linear} \cite[p.106]{MH} (but note the function $f_1,\dots,f_n$ are not necessarily linear). In the linear case, use matrix notation to write the sum of squared errors as
+$$
+SSE = \Vert \bs{y} - A \bs{c} \Vert^2
+$$
+where
+$$
+\bs{y} = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_m \end{bmatrix}
+\ \ \
+A = \begin{bmatrix}
+f_1(t_1) & f_2(t_1) & \cdots & f_n(t_1) \\
+f_1(t_2) & f_2(t_2) & \cdots & f_n(t_2) \\
+\vdots & & & \vdots \\
+f_1(t_m) & f_2(t_m) & \cdots & f_n(t_m)
+\end{bmatrix}
+\ \ \
+\bs{c} = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}
+$$
+We assume that $m \geq n$ and $f_1,\dots,f_n$ are linearly independenty (which implies $\mathrm{rank}(A) = n$). Therefore the vector of coefficients
+$$
+\bs{c} = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}
+$$
+is the least squares approximation of the system $A \bs{c} \cong \bs{y}$.
+\end{definition}

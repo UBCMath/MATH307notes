@@ -1,0 +1,39 @@
+\section{Least Squares Approximation}
+
+\begin{bigidea}
+Find the best approximation of the system $A \bs{x} \cong \bs{b}$ by minimizing the distance $\| A \bs{x} - \bs{b}\|$. There are several methods to find the approximation including the normal equations and the QR decomposition.
+\end{bigidea}
+
+\begin{definition}
+Let $A$ be an $m \times n$ matrix with $m > n$ and $\mathrm{rank}(A) = n$. The best approximation of the system $A \bs{x} \cong \bs{b}$ is the vector $\bs{x}$ which minimizes the distance $\| A\bs{x} - \bs{b} \|$. Since $\| \cdot \|$ is the 2-norm, the best approximation is called the {\bf least squares approximation}.
+\end{definition}
+
+\begin{proposition}
+Let $A$ be an $m \times n$ matrix with $m > n$ and $\mathrm{rank}(A) = n$. The least squares approximation of the system $A \bs{x} \cong \bs{b}$ is the solution of the {\bf normal equations} \cite[p.311]{KN}
+$$
+A^TA\bs{x} = A^T\bs{b}
+$$
+\begin{proof}
+If $\bs{x} \in \mathbb{R}^n$, then $A \bs{x} \in \mathrm{col}(A)$. The projection theorem \cite[p.420]{KN} states that the point in $\mathrm{col}(A)$ nearest to $\bs{b} \in \mathbb{R}^m$ is the orthogonal projection of $\bs{b}$ onto $\mathrm{col}(A)$. If $\bs{x}$ is the vector such that $A\bs{x} = \mathrm{proj}_{\mathrm{col}(A)}(\bs{b})$, then $A\bs{x} - \bs{b}$ is in $\mathrm{col}(A)^{\perp}$ and therefore
+$$
+A^T(A\bs{x} - \bs{b}) = 0 \ \ \Rightarrow \ \ A^TA\bs{x} = A^T\bs{b}
+$$
+We assume $\mathrm{rank}(A) = n$, therefore $A^TA$ is nonsingular and the solution exists and is unique.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}
+Let $A$ be an $m \times n$ matrix with $m > n$ and $\mathrm{rank}(A) = n$. The least squares approximation of the system $A \bs{x} \cong \bs{b}$ is the solution of the system of equations
+$$
+R_1\bs{x} = \bs{c}_1 \hspace{5mm} \text{where} \hspace{2mm} A = QR = [ Q_1 \ \ Q_2 ] \begin{bmatrix} R_1 \\ 0 \end{bmatrix} \ \ \text{and} \ \ Q^T\bs{b} = \begin{bmatrix} \bs{c}_1 \\ \bs{c}_2 \end{bmatrix}
+$$
+\begin{proof}
+The matrix $Q$ is orthogonal therefore
+$$
+\| A \bs{x} - \bs{b} \|^2 = \| Q(R \bs{x} - Q^T\bs{b}) \|^2 = \| R \bs{x} - Q^T\bs{b} \|^2
+= \left\| \begin{bmatrix} R_1\bs{x} \\ 0 \end{bmatrix} - \begin{bmatrix} \bs{c}_1 \\ \bs{c}_2 \end{bmatrix} \right\|^2
+= \| R_1 \bs{x} - \bs{c}_1 \|^2 + \| \bs{c}_2 \|^2
+$$
+where we use the Pythagoras theorem in the last equality. The vector $\bs{c}_2$ does not depend on $\bs{x}$ therefore the minimum value of $\| A \bs{x} - \bs{b} \|$ occurs when $R_1 \bs{x} = \bs{c}_1$.
+\end{proof}
+\end{proposition}
